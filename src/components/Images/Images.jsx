@@ -1,9 +1,8 @@
 import "./styles.css";
-import myImage from "../../assets/images/spider.png";
-export default function Images() {
+export default function Images({ image }) {
   return (
     <div className="images">
-      <img src={myImage} alt="" />
+      <img src={image} alt="" />
     </div>
   );
 }

@@ -1,9 +1,12 @@
 .images {
     display: block;
     position: absolute;
-    top: 0;
+    top: 30;
+    width: auto;
+    height: auto;
 }
 
 img {
     mix-blend-mode: multiply;
+    width: 70%;
 }

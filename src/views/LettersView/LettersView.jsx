@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import Images from "../../components/Images/Images";
 import Letter from "../../components/Letter/Letter";
@@ -114,6 +114,9 @@ const alphabet = [
 
 export default function LettersView() {
   const [currentLetter, setCurrentLetter] = useState(0);
+  const [imageSrc, setImageSrc] = useState(null);
+
+  const extensions = ["png", "jfif", "jpeg", "jpg"];
 
   const handlePlay = async () => {
     try {
@@ -150,10 +153,33 @@ export default function LettersView() {
     }
   }
 
+  // Try loading the image with multiple extensions
+  useEffect(() => {
+    const loadImage = async () => {
+      for (const ext of extensions) {
+        try {
+          const imagePath = await import(
+            `../../assets/images/${alphabet[currentLetter].media}.${ext}`
+          );
+          setImageSrc(imagePath.default);
+          return; // Exit loop once the image is successfully loaded
+        } catch (error) {
+          // Continue to the next extension if this one fails
+        }
+      }
+      console.error(
+        `Image for ${alphabet[currentLetter].media} not found with any supported extensions`
+      );
+      setImageSrc(null); // Fallback if no image is found
+    };
+
+    loadImage();
+  }, [currentLetter, extensions]);
+
   return (
     <div className="container">
       <Letter letter={alphabet[currentLetter].letter} clickSound={handlePlay} />
-      <Images />
+      <Images image={imageSrc} />
       <button className="next" onClick={() => nextLetter()}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
