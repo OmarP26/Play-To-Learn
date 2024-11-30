@@ -1,8 +1,8 @@
 import "./App.css";
-import GameView from "./views/GameView/GameView";
+import LettersView from "./views/LettersView/LettersView";
 
 function App() {
-  return <GameView />;
+  return <LettersView />;
 }
 
 export default App;
