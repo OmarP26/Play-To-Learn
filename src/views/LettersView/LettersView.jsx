@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 import Images from "../../components/Images/Images";
 import Letter from "../../components/Letter/Letter";
@@ -115,20 +115,26 @@ const alphabet = [
 export default function LettersView() {
   const [currentLetter, setCurrentLetter] = useState(0);
   const [imageSrc, setImageSrc] = useState(null);
-
-  const extensions = ["png", "jfif", "jpeg", "jpg"];
+  const audioRef = useRef(null);
 
   const handlePlay = async () => {
     try {
       console.log("Playing sound for letter:", alphabet[currentLetter].letter);
+
+      // Stop the previous audio if it's playing
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current.currentTime = 0;
+      }
 
       // Dynamically import the audio file
       const soundPath = await import(
         `../../assets/audios/${alphabet[currentLetter].media}.mp3`
       );
 
-      // Create a new Audio object and play the sound
+      // Create a new audio instance and play it
       const audio = new Audio(soundPath.default);
+      audioRef.current = audio; // Store the current audio instance
       audio.play();
     } catch (error) {
       console.error("Error loading sound:", error);
@@ -155,6 +161,7 @@ export default function LettersView() {
 
   // Try loading the image with multiple extensions
   useEffect(() => {
+    const extensions = ["png", "jfif", "jpeg", "jpg"];
     const loadImage = async () => {
       for (const ext of extensions) {
         try {
@@ -174,7 +181,7 @@ export default function LettersView() {
     };
 
     loadImage();
-  }, [currentLetter, extensions]);
+  }, [currentLetter]);
 
   return (
     <div className="container">
