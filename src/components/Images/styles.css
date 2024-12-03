@@ -10,3 +10,15 @@ img {
     mix-blend-mode: multiply;
     width: 70%;
 }
+
+.emote {
+    -webkit0animation:spin 4s linear infinite;
+    -moz-animation:spin 4s linear infinite;
+    animation:spin 4s linear infinite;
+}
+@keyframes spin {
+    100% {
+        -webkit-transform: rotate(360deg);
+        transform:rotate(360deg);
+    }
+}

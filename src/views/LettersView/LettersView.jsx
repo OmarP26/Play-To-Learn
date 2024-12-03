@@ -60,7 +60,7 @@ const alphabet = [
   },
   {
     letter: "N",
-    media: "nino",
+    media: "naranja",
   },
   {
     letter: "O",
@@ -84,7 +84,7 @@ const alphabet = [
   },
   {
     letter: "T",
-    media: "tortilla",
+    media: "tortuga",
   },
   {
     letter: "U",
@@ -92,7 +92,7 @@ const alphabet = [
   },
   {
     letter: "V",
-    media: "ventana",
+    media: "verde",
   },
   {
     letter: "W",
@@ -121,20 +121,17 @@ export default function LettersView() {
     try {
       console.log("Playing sound for letter:", alphabet[currentLetter].letter);
 
-      // Stop the previous audio if it's playing
       if (audioRef.current) {
         audioRef.current.pause();
         audioRef.current.currentTime = 0;
       }
 
-      // Dynamically import the audio file
       const soundPath = await import(
         `../../assets/audios/${alphabet[currentLetter].media}.mp3`
       );
 
-      // Create a new audio instance and play it
       const audio = new Audio(soundPath.default);
-      audioRef.current = audio; // Store the current audio instance
+      audioRef.current = audio;
       audio.play();
     } catch (error) {
       console.error("Error loading sound:", error);
@@ -159,7 +156,6 @@ export default function LettersView() {
     }
   }
 
-  // Try loading the image with multiple extensions
   useEffect(() => {
     const extensions = ["png", "jfif", "jpeg", "jpg"];
     const loadImage = async () => {
@@ -169,7 +165,7 @@ export default function LettersView() {
             `../../assets/images/${alphabet[currentLetter].media}.${ext}`
           );
           setImageSrc(imagePath.default);
-          return; // Exit loop once the image is successfully loaded
+          return;
         } catch (error) {
           // Continue to the next extension if this one fails
         }
@@ -177,7 +173,7 @@ export default function LettersView() {
       console.error(
         `Image for ${alphabet[currentLetter].media} not found with any supported extensions`
       );
-      setImageSrc(null); // Fallback if no image is found
+      setImageSrc(null);
     };
 
     loadImage();
